@@ -7,5 +7,10 @@ namespace Character
         [SerializeField] private UnitConfig unitConfig;
 
         public UnitConfig GetConfig() => unitConfig;
+
+        private void test()
+        {
+            
+        }
     }
 }
