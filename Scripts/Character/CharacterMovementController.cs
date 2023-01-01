@@ -6,6 +6,8 @@ namespace Character
 {
     public class CharacterMovementController : MonoBehaviour
     {
+        public event Action<bool> CharacterFlippedXDirection;
+
         [SerializeField] private float speed;
         private PlayerInputService _inputService;
         private Animator _animator;
@@ -31,11 +33,13 @@ namespace Character
             if (_inputService.GetHorizontalAxisValue() > 0)
             {
                 _renderer.flipX = false;
+                CharacterFlippedXDirection?.Invoke(false);
             }
-            
             else if (_inputService.GetHorizontalAxisValue() < 0)
             {
                 _renderer.flipX = true;
+                CharacterFlippedXDirection?.Invoke(true);
+
             }
 
             if (_inputService.IsMovementControlKeysDown())

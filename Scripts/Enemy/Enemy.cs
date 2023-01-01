@@ -5,6 +5,7 @@ using Character;
 
 namespace Enemy
 {
+    // TODO: split to different modules 
     public class Enemy : Unit, IDamageable
     {
         [SerializeField] private UnitHealth unitHealth;

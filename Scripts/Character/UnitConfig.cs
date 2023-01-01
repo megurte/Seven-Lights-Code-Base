@@ -11,12 +11,12 @@ namespace Character
         [SerializeField] private WeaponItem baseWeapon;
         [SerializeField] private Unit prefab;
 
-        public string GetName() => unitName;
+        public string Name => unitName;
         
-        public int GetHealth() => health;
+        public int Health => health;
         
-        public WeaponItem GetWeapon() => baseWeapon;
+        public WeaponItem Weapon => baseWeapon;
         
-        public Unit GetPrefab() => prefab;
+        public Unit Prefab => prefab;
     }
 }

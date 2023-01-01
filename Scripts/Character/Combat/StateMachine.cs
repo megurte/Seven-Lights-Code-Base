@@ -1,21 +1,31 @@
 ﻿using Items;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Character.Combat
 {
     public class StateMachine : MonoBehaviour
     {
         public State CurrentState { get; private set; }
+        public AttackBase AttackModule { get; private set; }
         public PlayerInputService InputService { get; private set; }
+        public Collider2D Hitbox { get; private set; }
         public string customName;
         private State _mainStateType;
         private State _nextState;
         private WeaponItem _weapon;
+        private Unit _unit;
 
         private void Awake()
         {
             SetNextStateToMain();
+        }
+        
+        private void Start()
+        {
+            _unit = GetComponent<Unit>();
+            ApplyWeapon(_unit.Config.Weapon);
         }
         
         private void Update()
@@ -83,9 +93,17 @@ namespace Character.Combat
             InputService = inputService;
         }
         
+        public void SetHitBox(Collider2D hitbox)
+        {
+            Hitbox = hitbox;
+        }
+
         public void ApplyWeapon(WeaponItem weaponItem)
         {
-            this._weapon = weaponItem;
+            _weapon = weaponItem;
+            
+            if (_weapon.GetType() == typeof(MeleeWeaponItem))
+                AttackModule = gameObject.AddComponent<MeleeAttackModule>();
         }
 
         public T GetWeapon<T>() where T : WeaponItem

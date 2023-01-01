@@ -27,7 +27,7 @@ namespace Character
         
         private void Initialize()
         {
-            MaxHealth = unit.GetConfig().GetHealth();
+            MaxHealth = unit.Config.Health;
             _health = MaxHealth;
         }
     }

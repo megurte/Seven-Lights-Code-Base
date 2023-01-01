@@ -6,6 +6,6 @@ namespace Character
     {
         [SerializeField] private UnitConfig unitConfig;
 
-        public UnitConfig GetConfig() => unitConfig;
+        public UnitConfig Config => unitConfig;
     }
 }

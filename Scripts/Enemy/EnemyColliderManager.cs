@@ -1,18 +1,15 @@
-﻿using System;
-using Character;
-using Unity.VisualScripting;
+﻿using Character;
 using UnityEngine;
 
 namespace Enemy
 {
-    public class EnemyAnimatorManager : MonoBehaviour
+    public class EnemyColliderManager : MonoBehaviour
     {
-        private Animator _animator;
+        [SerializeField] private Collider2D hitbox;
         private UnitHealth _unitHealth;
 
         private void Start()
         {
-            _animator = GetComponent<Animator>();
             _unitHealth = GetComponent<UnitHealth>();
             _unitHealth.OnHealthChanged += CheckChangedHealth;
         }
@@ -24,13 +21,9 @@ namespace Enemy
 
         private void CheckChangedHealth(float currentHealth)
         {
-            if (currentHealth == 0)
-            {
-                _animator.SetBool("IsDead", true);
-                return;
-            }
-            
-            _animator.SetTrigger("TakeDamage");
+            if (currentHealth > 0) return;
+
+            hitbox.enabled = false;
         }
     }
 }
