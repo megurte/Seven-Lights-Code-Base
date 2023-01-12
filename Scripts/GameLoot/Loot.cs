@@ -1,4 +1,5 @@
 ﻿using Character;
+using Character.Inventory;
 using Items;
 using UnityEngine;
 using Zenject;
@@ -9,11 +10,11 @@ namespace GameLoot
     {
         [SerializeField] private Item item;
         [SerializeField] private float obtainTimer = 1;
-        private Inventory _playerInventory;
+        private InventoryModule _playerInventory;
         private bool _isObtainable = default;
 
         [Inject]
-        private void SetDependency(Inventory inventory)
+        private void SetDependency(InventoryModule inventory)
         {
             _playerInventory = inventory;
         }

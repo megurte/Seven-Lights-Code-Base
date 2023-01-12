@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Character;
+using Character.Inventory;
 using Factories;
 using Interfaces;
 using Items;
@@ -20,11 +21,11 @@ namespace GameLoot
         [SerializeField] private List<LootSettings> lootSettings = new List<LootSettings>();
         [SerializeField] private Sprite openedSprite;
         private SpriteRenderer _renderer;
-        private Inventory _inventory;
+        private InventoryModule _inventory;
         private LootFactory _factory;
 
         [Inject]
-        private void SetDependency(LootFactory factory, Inventory inventory)
+        private void SetDependency(LootFactory factory, InventoryModule inventory)
         {
             _factory = factory;
             _inventory = inventory;

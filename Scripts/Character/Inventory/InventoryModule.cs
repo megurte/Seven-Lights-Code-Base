@@ -1,15 +1,18 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Items;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Character
+namespace Character.Inventory
 {
-    public class Inventory : MonoBehaviour
+    public class InventoryModule : MonoBehaviour
     {
         [SerializeField] private List<Item> inventory;
-        
+        [SerializeField] private InventoryView inventoryView;
+        [SerializeField] private int inventoryMaxSize;
+
         public readonly UnityEvent<Item> OnItemObtain = new UnityEvent<Item>();
 
         private void Start()
@@ -20,6 +23,7 @@ namespace Character
         private void ObtainItem(Item item)
         {
             inventory.Add(item);
+            inventoryView.UpdateInventoryView.Invoke(inventory);
             Debug.Log($"An item {item.GetName()} has been added to inventory");
         }
 
@@ -42,5 +46,7 @@ namespace Character
             
             Debug.LogWarning($"An item with id {itemId} does not found");
         }
+
+        public int GetMaxInventorySize() => inventoryMaxSize;
     }
 }

@@ -10,11 +10,11 @@ namespace Character
         private Transform _target;
         private Vector3 _offset;
         private Vector3 _targetPos;
-
+        
         [Inject]
-        private void SetDependency(Inventory inventory)
+        private void SetDependency(Player player)
         {
-            _target = inventory.transform;
+            _target = player.transform;
         }
         
         private void Start()
