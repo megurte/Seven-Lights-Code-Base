@@ -2,6 +2,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Zenject;
 
 namespace Character.Combat
 {
@@ -97,13 +98,15 @@ namespace Character.Combat
         {
             Hitbox = hitbox;
         }
-
+        
         public void ApplyWeapon(WeaponItem weaponItem)
         {
             _weapon = weaponItem;
-            
+            Debug.LogWarning($"The weapon {_weapon.GetName()} has been applied");
+
             if (_weapon.GetType() == typeof(MeleeWeaponItem))
-                AttackModule = gameObject.AddComponent<MeleeAttackModule>();
+                //AttackModule = gameObject.AddComponent<MeleeAttackModule>();
+                AttackModule = GetComponent<MeleeAttackModule>();
         }
 
         public T GetWeapon<T>() where T : WeaponItem

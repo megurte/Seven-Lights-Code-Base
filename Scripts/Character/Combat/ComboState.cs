@@ -7,8 +7,8 @@
             base.OnEnter(combatStateMachine);
 
             AttackIndex = 2;
-            Duration = 0.5f;
-            AttackDamage = Weapon.attacks.GetAttackDamageByAttackIndex(AttackIndex);
+            Duration = Weapon.attackDuration.GetAttackDurationByAttackIndex(AttackIndex);
+            AttackDamage = Weapon.attackDamage.GetAttackDamageByAttackIndex(AttackIndex);
             Animator.SetTrigger("Attack"+AttackIndex);
         }
         

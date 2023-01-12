@@ -18,7 +18,7 @@ namespace Character
                 ActionButtonPressed?.Invoke();
             }
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetKeyDown(KeyCode.Space))//Input.GetMouseButtonDown(0))
             {
                 AttackButtonPressed?.Invoke();
             }

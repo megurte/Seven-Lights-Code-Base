@@ -23,7 +23,6 @@ namespace Character.Combat
             _meleeStateMachine = GetComponent<StateMachine>();
             _meleeStateMachine.SetInputService(_inputService);
             _meleeStateMachine.SetHitBox(hitbox);
-            _meleeStateMachine.ApplyWeapon(weapon);
             _meleeStateMachine.SetNextStateToMain();
 
             _characterMovement = GetComponent<CharacterMovementController>();
