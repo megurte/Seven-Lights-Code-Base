@@ -9,13 +9,10 @@ namespace Character.Inventory
 {
     public class InventoryView : MonoBehaviour
     {
-        [SerializeField] private GameObject content;
-        [SerializeField] private InventorySlot slot;
+        [SerializeField] private Transform content;
+        [SerializeField] private InventorySlot slotPrefab;
         private InventoryModule _inventoryModule;
-        private List<InventorySlot> _inventorySlots;
         
-        public readonly UnityEvent<List<Item>> UpdateInventoryView = new UnityEvent<List<Item>>();
-
         [Inject]
         private void SetDependency(InventoryModule inventoryModule)
         {
@@ -24,36 +21,55 @@ namespace Character.Inventory
 
         private void OnEnable()
         {
-            _inventorySlots = new List<InventorySlot>();
             DrawInventory();
-            UpdateInventoryView.AddListener(UpdateView);
+            _inventoryModule.AddUpdateView += AddUpdateView;
+            _inventoryModule.RemoveUpdateView += RemoveUpdateView;
         }
         
         private void DrawInventory()
         {
+            var startItems = _inventoryModule.GetInventoryItems();
+            
             for (var i = 0; i < _inventoryModule.GetMaxInventorySize(); i++)
             {
-                _inventorySlots.Add(Instantiate(slot, content.transform));
-                _inventorySlots[i].SetEmpty();
-                /*var itemSlot = Instantiate(slot, content.transform);
-                itemSlot.SetEmpty();
-                _inventorySlots.Add(itemSlot);*/
+                if (i < startItems.Count)
+                {
+                    var itemSlot = Instantiate(slotPrefab, content.transform);
+                    itemSlot.SetItem(startItems[i]);
+                }
+                else
+                {
+                    var itemSlot = Instantiate(slotPrefab, content.transform);
+                    itemSlot.SetEmpty();
+                }
             }
         }
-
-        private void UpdateView(List<Item> inventoryList)
+        
+        private void AddUpdateView(Item item)
         {
-            foreach (var item in inventoryList)
+            foreach (Transform childSlot in content)
             {
-                for (var i = 0; i < _inventorySlots.Count; i++)
-                {
-                    if (_inventorySlots[i].IsEmpty())
-                    {
-                        Destroy(_inventorySlots[i]);
-                        var itemSlot = Instantiate(item, content.transform);
-                        _inventorySlots[i].SetItem(itemSlot);
-                    }
-                }
+                var currentSlot = childSlot.GetComponent<InventorySlot>();
+                
+                if (!currentSlot.IsEmpty()) continue;
+                
+                currentSlot.SetItem(item);
+                return;
+            }
+        }
+        
+        private void RemoveUpdateView(Item item)
+        {
+            foreach (Transform childSlot in content)
+            {
+                var currentSlot = childSlot.GetComponent<InventorySlot>();
+
+                if (currentSlot.IsEmpty()) continue;
+
+                if (currentSlot.ItemData.GetId() != item.GetId()) continue;
+                
+                currentSlot.SetEmpty();
+                return;
             }
         }
     }

@@ -7,11 +7,22 @@ namespace Character.Inventory
     public class InventorySlot : MonoBehaviour
     {
         [SerializeField] private Image itemImage;
+        [SerializeField] private GameObject stackText;
         public Item ItemData { set; get; }
 
         public bool IsEmpty()
         {
-            return ItemData;
+            return !ItemData;
+        }
+        
+        public bool IsAbleToStack()
+        {
+            return ItemData.GetStackSize() > 0;
+        }
+
+        public void ShowStackSize(bool show)
+        {
+            stackText.SetActive(show);
         }
 
         public void SetEmpty()

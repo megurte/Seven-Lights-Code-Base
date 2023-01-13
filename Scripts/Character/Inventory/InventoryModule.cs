@@ -14,6 +14,8 @@ namespace Character.Inventory
         [SerializeField] private int inventoryMaxSize;
 
         public readonly UnityEvent<Item> OnItemObtain = new UnityEvent<Item>();
+        public Action<Item> AddUpdateView;
+        public Action<Item> RemoveUpdateView;
 
         private void Start()
         {
@@ -23,7 +25,8 @@ namespace Character.Inventory
         private void ObtainItem(Item item)
         {
             inventory.Add(item);
-            inventoryView.UpdateInventoryView.Invoke(inventory);
+            AddUpdateView?.Invoke(item);
+            //inventoryView.UpdateInventoryView.Invoke(inventory);
             Debug.Log($"An item {item.GetName()} has been added to inventory");
         }
 
@@ -34,12 +37,14 @@ namespace Character.Inventory
         
         public void RemoveItem(int itemId)
         {
-            foreach (var itemSlot in inventory)
+            foreach (var item in inventory)
             {
-                if (!itemSlot) continue;
-                if (itemId != itemSlot.GetId()) continue;
+                if (!item) continue;
+                if (itemId != item.GetId()) continue;
                 
-                inventory.Remove(itemSlot);
+                inventory.Remove(item);
+                RemoveUpdateView?.Invoke(item);
+                //inventoryView.UpdateInventoryView.Invoke(inventory);
                 Debug.LogWarning($"An item with id {itemId} has been removed");
                 return;
             }
@@ -48,5 +53,6 @@ namespace Character.Inventory
         }
 
         public int GetMaxInventorySize() => inventoryMaxSize;
+        public List<Item> GetInventoryItems() => inventory;
     }
 }

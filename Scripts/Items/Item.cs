@@ -11,6 +11,7 @@ namespace Items
         [SerializeField] private string description;
         [SerializeField] private ItemRarity itemRarity;
         [SerializeField] private Sprite icon;
+        [SerializeField] private int stackSize;
 
         public string GetName() => itemName;
 
@@ -19,5 +20,7 @@ namespace Items
         public ItemRarity GetRarity() => itemRarity;
 
         public Sprite GetIcon() => icon;
+        
+        public int GetStackSize() => stackSize;
     }
 }
